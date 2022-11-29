@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<title>通灵ol</title>
+<style type="text/css">
+body{
+background-image:url('https://game.gtimg.cn/images/hyrzol/web201811/bg5.jpg');
+width:100%;
+margin:0 auto;
+font-size:20px;
+}
+h1{
+background-color:green;
+margin:0 auto;
+text-align:center;
+}
+.head{
+background-color:yellow;
+}
+label{
+font-size:18px;
+}
+
+.nowLevel,
+.goalLevel{
+font-size:18px;
+}
+
+label[for="nowExist1"],
+label[for="nowExist2"],
+label[for="nowExist3"]{
+font-size:18px;
+}
+
+.goalSubmit{
+width:200px;
+font-size:35px;
+border:3px solid black;
+margin:0 0 0 150px;
+background-image:url('https://game.gtimg.cn/images/hyrzol/web201811/bg5.jpg');
+}
+</style>
+</head>
+
+<body>
+<h1><font color="white">组织通灵经验计算</font></h1>
+<p class="head">当前仅支持220级内计算(不包括220)</p>
+<label for="nowLevel">您的当前等级为：</label>
+<input type="number" id="nowLevel" class="nowLevel">
+<br>
+<label for="goalLevel">您的目标等级为：</label>
+<input type="number" id="goalLevel" class="goalLevel">
+<p>您的当前库存为：</p>
+<label for="nowExist1">蓝：</label>
+<input type="number" id="goalLevel" class="nowExist1" placeholder="选填">
+<br>
+<label for="nowExist2">紫：</label>
+<input type="number" id="goalLevel" class="nowExist2" placeholder="选填">
+<br>
+<label for="nowExist3">橙：</label>
+<input type="number" id="goalLevel" class="nowExist3" placeholder="选填">
+<br>
+<input type="submit" value="开始计算" class="goalSubmit">
+
+
+<div class="total">
+<p class="totalEx"></p>
+<p class="totalEx2"></p>
+<p class="needEx"></p>
+<p class="needDay"></p>
+<p class="couldEx"></p>
+</div>
+
+<script>
+const nowLevel=document.querySelector(".nowLevel");
+const goalLevel=document.querySelector(".goalLevel");
+
+const nowExist1 = document.querySelector('.nowExist1');
+const nowExist2 = document.querySelector('.nowExist2');
+const nowExist3 = document.querySelector('.nowExist3');
+
+const needDay = document.querySelector('.needDay');
+const totalEx = document.querySelector('.totalEx');
+const totalEx2 = document.querySelector('.totalEx2');
+
+const needEx = document.querySelector('.needEx');
+const couldEx = document.querySelector('.couldEx');
+const btn = document.querySelector('.goalSubmit');
+var num1=0;
+var num2=0;
+
+function calculate(){
+
+let nowNumber = Math.floor(nowLevel.value);
+let goalNumber = Math.floor(goalLevel.value);
+
+let blueExist =Math.floor(nowExist1.value);
+let pinkExist = Math.floor(nowExist2.value);
+let orangeExist = Math.floor(nowExist3.value);
+
+let tenPoint = Math.floor(nowNumber/10);
+let tenPoint2=Math.floor(goalNumber/10);
+
+couldEx.textContent="";
+needDay.textContent="";
+
+
+totalEx.textContent="当前拥有经验总计为："
+totalEx2.textContent="目标所需经验总计为："
+if(tenPoint === 0){
+if(nowNumber===0){
+totalEx.textContent +=num1+20*blueExist+100*pinkExist+1000*orangeExist;}
+else{
+num1 = (nowNumber-1)*300+20*blueExist+100*pinkExist+1000*orangeExist;
+totalEx.textContent +=num1;}
+}
+else if((tenPoint<4)&(nowNumber%10===0)){
+num1 = Number(500*tenPoint*tenPoint+2400*tenPoint-200)+20*blueExist+100*pinkExist+1000*orangeExist;
+totalEx.textContent +=num1;
+}
+else if(tenPoint<4){
+num1 = (500*tenPoint*tenPoint+2400*tenPoint-200)+(nowNumber-10*tenPoint)*(300+100*(tenPoint))-100+20*blueExist+100*pinkExist+1000*orangeExist;
+totalEx.textContent +=num1;
+}
+else if(tenPoint===4){
+num1 = (500*tenPoint*tenPoint+2400*tenPoint-200)+(nowNumber-10*tenPoint)*800-200+20*blueExist+100*pinkExist+1000*orangeExist;
+totalEx.textContent +=num1;
+}
+else if((tenPoint<21)&(nowNumber%10===0)){
+num1 = 1000*(tenPoint-4)*(tenPoint-4)+6800*(tenPoint-4)+17400+20*blueExist+100*pinkExist+1000*orangeExist;
+totalEx.textContent +=num1;
+}
+else if(tenPoint<21){
+num1 = 1000*(tenPoint-4)*(tenPoint-4)+6800*(tenPoint-4)+17400+(nowNumber-10*tenPoint)*(800+200*(tenPoint-4))-200+20*blueExist+100*pinkExist+1000*orangeExist;
+totalEx.textContent +=num1;
+}
+else if(tenPoint===21){
+num1 = 1000*(tenPoint-4)*(tenPoint-4)+6800*(tenPoint-4)+17400+(nowNumber-10*tenPoint)*4400-400+20*blueExist+100*pinkExist+1000*orangeExist;
+totalEx.textContent +=num1;
+}
+else{
+
+
+
+
+
+
+}
+if(tenPoint2 === 0){
+if(goalNumber===0){
+totalEx2.textContent +=num2;
+}else{
+num2 = Number((goalNumber-1)*300);
+totalEx2.textContent +=num2;}
+}
+else if((tenPoint2<4)&(goalNumber%10===0)){
+num2 = Number(500*tenPoint2*tenPoint2+2400*tenPoint2-200);
+totalEx2.textContent +=num2;
+}
+else if(tenPoint2<4){
+num2 = Number((500*tenPoint2*tenPoint2+2400*tenPoint2-200)+(goalNumber-10*tenPoint2)*(300+100*(tenPoint2))-100);
+totalEx2.textContent +=num2;
+}
+else if(tenPoint2===4){
+num2 =Number((500*tenPoint2*tenPoint2+2400*tenPoint2-200)+(goalNumber-10*tenPoint2)*800-200);
+totalEx2.textContent +=num2;
+}
+else if((tenPoint2<21)&(goalNumber%10===0)){
+num2 = Number(1000*(tenPoint2-4)*(tenPoint2-4)+6800*(tenPoint2-4)+17400);
+totalEx2.textContent +=num2;
+}
+else if(tenPoint2<21){
+num2 = Number(1000*(tenPoint2-4)*(tenPoint2-4)+6800*(tenPoint2-4)+17400+(goalNumber-10*tenPoint2)*(800+200*(tenPoint2-4))-200);
+totalEx2.textContent +=num2;
+}
+else if(tenPoint2===21){
+num2 = Number(1000*(tenPoint2-4)*(tenPoint2-4)+6800*(tenPoint2-4)+17400+(goalNumber-10*tenPoint2)*4400-400);
+totalEx2.textContent +=num2;
+}
+else{
+
+
+
+
+
+
+}
+if(num2>num1){
+needEx.textContent ='距目标等级仍需经验：'
+needEx.textContent+=num2-num1;
+needEx.style.backgroundColor="red";
+var day=Math.floor((num2-num1)/1600);
+needDay.textContent = "距目标等级预计还需："+day+'天';
+needDay.style.backgroundColor="orange";
+}
+else{
+if(num2===0){
+}else{
+needEx.textContent="恭喜你经验足够升至目标等级！";
+needEx.style.backgroundColor="green";}
+}
+if(num1<135800){
+couldEx.textContent="你的库存还不足以让你升至120！";
+couldEx.style.backgroundColor="red";
+}
+else if(num1<185400){
+couldEx.textContent="你的库存足以让你升至120-140之间！";
+couldEx.style.backgroundColor="yellow";
+}
+else if(num1<243000){
+couldEx.textContent="你的库存经验足以让你升至140-160之间！";
+couldEx.style.backgroundColor="yellow";
+}
+else if(num1<308600){
+couldEx.textContent="你的库存经验足以让你升至160-180之间！";
+couldEx.style.backgroundColor="yellow";
+}
+else if(num1<344400){
+couldEx.textContent="你的库存经验足以让你升至180-190之间！";
+couldEx.style.backgroundColor="green";
+}
+else{
+couldEx.textContent="你的库存经验足以让你升至191以上！";
+couldEx.style.backgroundColor="green";
+}
+}
+btn.addEventListener('click',calculate);
+</script>
+</body>
+</html>
